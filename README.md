@@ -6,13 +6,15 @@ You just need to write down the structure of a DFA in a text file<br/>
   #Structure of DFA file<br/>
       #line1 => Number of States.<br/>
       #line2 => Alphabet (All character of alphabet as a string).<br/>
-      #line3 => Start state number and Finish state number (Remeber state numbers are 0 indexed, i.e. first state is 0.) start and finish state number should be comma seperated.<br/>
-      #line4 - End of File => These lines should be in the following format "S,c,F" where S is the start state for an edge in DFA, e is tha triggering character and F is the finish state. One line represents one edge. <br/>
+      #line3 => Start state number (Remember state numbers are 0 indexed, i.e. first state is 0.) <br/>
+	  #line4 => Set on finish state numbers; comma separated;<br/>
+      #line5 - End of File => These lines should be in the following format "S,c,F" where S is the start state for an edge in DFA, e is tha triggering character and F is the finish state. One line represents one edge. <br/>
       
   #EXAMPLE => The DFA definition file should be like following.<br/>
       2<br/>
       01<br/>
-      0,1<br/>
+      0<br/>
+	  1<br/>
       0,0,0<br/>
       0,1,1<br/>
       1,0,0<br/>

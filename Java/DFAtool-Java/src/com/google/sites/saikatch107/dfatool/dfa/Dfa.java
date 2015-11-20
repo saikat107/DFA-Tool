@@ -41,12 +41,16 @@ public class Dfa {
         }
         String alp = fileScanner.nextLine();
         alphabet = alp.toCharArray();
-        String sf = fileScanner.nextLine();
-        StringTokenizer tok = new StringTokenizer(sf,",");
-        startIndex = Integer.parseInt(tok.nextToken());
-        finishIndex = Integer.parseInt(tok.nextToken());
-        states[startIndex].markAsStartState(true);
+        String st = fileScanner.nextLine();
+        startIndex = Integer.parseInt(st);
         states[finishIndex].markAsFinishedState(true);
+        String finishIndices = fileScanner.nextLine();
+        StringTokenizer tok = new StringTokenizer(finishIndices,",");
+        while(tok.hasMoreTokens()){
+            finishIndex = Integer.parseInt(tok.nextToken());
+            states[startIndex].markAsStartState(true);
+        }
+        
         while(fileScanner.hasNextLine()){
             String line = fileScanner.nextLine();
             StringTokenizer tokenizer = new StringTokenizer(line,",");
