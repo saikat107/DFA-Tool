@@ -9,10 +9,6 @@ import com.google.sites.saikatch107.dfatool.dfa.Dfa;
 public class Main {
 
     /**
-     * @param args the command line arguments
-     */
-    
-    /**
      * Create a Dfa with the DFA definition filename(with path) as argument
      * if the DFA contruction is successful You will see a message "DFA contruction successful"
      * Simulate a string with DFA by calling dfa.simulateDfa(string);
