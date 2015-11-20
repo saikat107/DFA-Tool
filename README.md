@@ -16,13 +16,13 @@ You just need to write down the structure of a DFA in a text file
       
       
   #EXAMPLE => The DFA definition file should be like following.
-      2
-      01
-      0,1
-      0,0,0
-      0,1,1
-      1,0,0
-      1,1,1
+      2<br/>
+      01<br/>
+      0,1<br/>
+      0,0,0<br/>
+      0,1,1<br/>
+      1,0,0<br/>
+      1,1,1<br/>
       
       #Explanation => In this example DFA there are 2 state as state in line 1. The alphabet of this DFA contains only 0 and 1.
       The start state is 0 and the finish state is 1.
