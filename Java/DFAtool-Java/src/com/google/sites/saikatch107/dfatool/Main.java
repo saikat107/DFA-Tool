@@ -16,6 +16,7 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         Dfa dfa = new Dfa("settings.txt");
+        //dfa.debug();
         dfa.simulateDfa("0101");
     }
     

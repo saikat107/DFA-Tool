@@ -43,20 +43,20 @@ public class Dfa {
         alphabet = alp.toCharArray();
         String st = fileScanner.nextLine();
         startIndex = Integer.parseInt(st);
-        states[finishIndex].markAsFinishedState(true);
+        states[startIndex].markAsStartState(true);
         String finishIndices = fileScanner.nextLine();
         StringTokenizer tok = new StringTokenizer(finishIndices,",");
         while(tok.hasMoreTokens()){
-            finishIndex = Integer.parseInt(tok.nextToken().trim());
-            states[startIndex].markAsStartState(true);
+            finishIndex = Integer.parseInt(tok.nextToken());
+            states[finishIndex].markAsFinishedState(true);
         }
         
         while(fileScanner.hasNextLine()){
             String line = fileScanner.nextLine();
             StringTokenizer tokenizer = new StringTokenizer(line,",");
-            int start = Integer.parseInt(tokenizer.nextToken().trim());
+            int start = Integer.parseInt(tokenizer.nextToken());
             char ch = tokenizer.nextToken().trim().charAt(0);
-            int finish = Integer.parseInt(tokenizer.nextToken().trim());
+            int finish = Integer.parseInt(tokenizer.nextToken());
             try {
                 states[start].addTransitionEntry(ch, states[finish]);
             } catch (DfaException ex) {
@@ -95,6 +95,17 @@ public class Dfa {
         }
         else{
             System.out.println("DFA simulation Unsuccessful");
+        }
+    }
+    
+    public void debug(){
+        for(int i = 0; i < numberOfState; i++){
+            System.out.println(states[i].getId() + " " + 
+                    states[i].isStartState() + " " + states[i].isFinishedState());
+            for(int j = 0; j < alphabet.length ; j++){
+                System.out.println("\t" + alphabet[j] + " " + 
+                        states[i].getNextState(alphabet[j]).getId());
+            }
         }
     }
 }
