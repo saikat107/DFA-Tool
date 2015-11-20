@@ -11,6 +11,8 @@ public class DFAtoolJava {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Dfa dfa = new Dfa("G:\\AUST\\Fall 2015\\Compiler Lab\\DFA Tool\\Java\\DFAtool-Java\\settings.txt");
+        dfa.simulateDfa("010");
     }
     
 }
