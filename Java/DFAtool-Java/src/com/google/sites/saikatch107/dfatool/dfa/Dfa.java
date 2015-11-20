@@ -47,16 +47,16 @@ public class Dfa {
         String finishIndices = fileScanner.nextLine();
         StringTokenizer tok = new StringTokenizer(finishIndices,",");
         while(tok.hasMoreTokens()){
-            finishIndex = Integer.parseInt(tok.nextToken());
+            finishIndex = Integer.parseInt(tok.nextToken().trim());
             states[startIndex].markAsStartState(true);
         }
         
         while(fileScanner.hasNextLine()){
             String line = fileScanner.nextLine();
             StringTokenizer tokenizer = new StringTokenizer(line,",");
-            int start = Integer.parseInt(tokenizer.nextToken());
-            char ch = tokenizer.nextToken().charAt(0);
-            int finish = Integer.parseInt(tokenizer.nextToken());
+            int start = Integer.parseInt(tokenizer.nextToken().trim());
+            char ch = tokenizer.nextToken().trim().charAt(0);
+            int finish = Integer.parseInt(tokenizer.nextToken().trim());
             try {
                 states[start].addTransitionEntry(ch, states[finish]);
             } catch (DfaException ex) {
