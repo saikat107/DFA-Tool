@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Acer PC
+ * @author Saikat
  */
 public class Dfa {
     private State[] states;

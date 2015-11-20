@@ -7,7 +7,7 @@ package com.google.sites.saikatch107.dfatool.dfa;
 
 /**
  *
- * @author Acer PC
+ * @author Saikat
  */
 public class DfaException extends Exception{
     public DfaException(String msg){

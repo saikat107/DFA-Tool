@@ -13,7 +13,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Dfa dfa = new Dfa("G:\\AUST\\Fall 2015\\Compiler Lab\\DFA Tool\\Java\\DFAtool-Java\\settings.txt");
+        Dfa dfa = new Dfa("settings.txt");
         dfa.simulateDfa("0101");
     }
     
