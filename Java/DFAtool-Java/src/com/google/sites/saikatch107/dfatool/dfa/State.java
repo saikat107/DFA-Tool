@@ -1,4 +1,4 @@
-package com.google.sites.saikatch107.dfatool;
+package com.google.sites.saikatch107.dfatool.dfa;
 
 import java.util.HashMap;
 import java.util.Map;
