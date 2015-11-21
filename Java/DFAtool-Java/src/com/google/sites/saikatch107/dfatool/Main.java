@@ -16,11 +16,7 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         Dfa dfa = new Dfa("definition.txt");
-<<<<<<< HEAD
         //dfa.debug(); 
-=======
-        dfa.debug(); 
->>>>>>> 8245bf70873defcefa8d70c12fd04e7101033506
         dfa.simulateDfa("abbaabbbab");
     }
     
