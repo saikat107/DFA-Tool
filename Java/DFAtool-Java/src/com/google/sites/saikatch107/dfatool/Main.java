@@ -15,9 +15,9 @@ public class Main {
      **/
     public static void main(String[] args) {
         // TODO code application logic here
-        Dfa dfa = new Dfa("definition.txt");
+        Dfa dfa = Dfa.createDfa("definition.txt");
         //dfa.debug(); 
-        dfa.simulateDfa("abbaabbbab");
+        dfa.simulateDfa("ba");
     }
     
 }

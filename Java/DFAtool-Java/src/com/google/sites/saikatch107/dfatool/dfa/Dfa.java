@@ -22,8 +22,13 @@ public class Dfa {
     private char[] alphabet;    
     private int startIndex;
     private int finishIndex;
+    private String filename = null;
+    private Dfa(String filename){
+        this.filename = filename;
+    }
     
-    public Dfa(String filename){
+    public static Dfa createDfa(String filename){
+        Dfa dfa = new Dfa(filename);
         Scanner fileScanner = null;
         try {
              fileScanner = new Scanner(new File(filename));
@@ -31,24 +36,24 @@ public class Dfa {
             Logger.getLogger(Dfa.class.getName()).log(Level.SEVERE, null, ex);
             System.exit(-1);
         }
-        numberOfState = Integer.parseInt(fileScanner.nextLine());
-        states = new State[numberOfState];
-        for(int i = 0 ; i < numberOfState ; i++){
-            states[i] = new State();
-            states[i].setId(i);
-            states[i].markAsStartState(false);
-            states[i].markAsFinishedState(false);
+        dfa.numberOfState = Integer.parseInt(fileScanner.nextLine());
+        dfa.states = new State[dfa.numberOfState];
+        for(int i = 0 ; i < dfa.numberOfState ; i++){
+            dfa.states[i] = new State();
+            dfa.states[i].setId(i);
+            dfa.states[i].markAsStartState(false);
+            dfa.states[i].markAsFinishedState(false);
         }
         String alp = fileScanner.nextLine();
-        alphabet = alp.toCharArray();
+        dfa.alphabet = alp.toCharArray();
         String st = fileScanner.nextLine();
-        startIndex = Integer.parseInt(st);
-        states[startIndex].markAsStartState(true);
+        dfa.startIndex = Integer.parseInt(st);
+        dfa.states[dfa.startIndex].markAsStartState(true);
         String finishIndices = fileScanner.nextLine();
         StringTokenizer tok = new StringTokenizer(finishIndices,",");
         while(tok.hasMoreTokens()){
-            finishIndex = Integer.parseInt(tok.nextToken());
-            states[finishIndex].markAsFinishedState(true);
+            dfa.finishIndex = Integer.parseInt(tok.nextToken());
+            dfa.states[dfa.finishIndex].markAsFinishedState(true);
         }
         
         while(fileScanner.hasNextLine()){
@@ -58,18 +63,19 @@ public class Dfa {
             char ch = tokenizer.nextToken().trim().charAt(0);
             int finish = Integer.parseInt(tokenizer.nextToken());
             try {
-                states[start].addTransitionEntry(ch, states[finish]);
+                dfa.states[start].addTransitionEntry(ch, dfa.states[finish]);
             } catch (DfaException ex) {
                 Logger.getLogger(Dfa.class.getName()).log(Level.SEVERE, null, ex);
                 System.exit(-1);
             }
         }
         try {
-            validateDfa();
+            dfa.validateDfa();
             System.out.println("DFA construction Successful!");
         } catch (DfaException ex) {
             Logger.getLogger(Dfa.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return dfa;
     }
 
     private void validateDfa() throws DfaException {
