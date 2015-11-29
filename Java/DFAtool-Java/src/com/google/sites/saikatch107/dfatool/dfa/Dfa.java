@@ -7,6 +7,8 @@ package com.google.sites.saikatch107.dfatool.dfa;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -23,8 +25,10 @@ public class Dfa {
     private int startIndex;
     private int finishIndex;
     private String filename = null;
+    private Map<String , Integer> stateMap = null;
     private Dfa(String filename){
         this.filename = filename;
+        stateMap = new HashMap<String , Integer>();
     }
     
     public static Dfa createDfa(String filename){
@@ -36,7 +40,14 @@ public class Dfa {
             Logger.getLogger(Dfa.class.getName()).log(Level.SEVERE, null, ex);
             System.exit(-1);
         }
-        dfa.numberOfState = Integer.parseInt(fileScanner.nextLine());
+        String stateLine = fileScanner.nextLine();
+        StringTokenizer stateLineTokenizer = new StringTokenizer(stateLine, ", \t");
+        dfa.numberOfState = 0;
+        while(stateLineTokenizer.hasMoreTokens()){
+            String stateName = stateLineTokenizer.nextToken().trim();
+            dfa.stateMap.put(stateName, dfa.numberOfState);
+            dfa.numberOfState++;
+        }
         dfa.states = new State[dfa.numberOfState];
         for(int i = 0 ; i < dfa.numberOfState ; i++){
             dfa.states[i] = new State();
@@ -46,24 +57,51 @@ public class Dfa {
         }
         String alp = fileScanner.nextLine();
         dfa.alphabet = alp.toCharArray();
-        String st = fileScanner.nextLine();
-        dfa.startIndex = Integer.parseInt(st);
+        String st = fileScanner.nextLine().trim();
+        if(dfa.stateMap.containsKey(st)){
+            dfa.startIndex = dfa.stateMap.get(st);
+        }
+        else{
+            System.err.println("Start state is not present in the state list."
+                    + "\nError in definition file!");
+            System.exit(-1);
+        }
         dfa.states[dfa.startIndex].markAsStartState(true);
         String finishIndices = fileScanner.nextLine();
-        StringTokenizer tok = new StringTokenizer(finishIndices,",");
+        StringTokenizer tok = new StringTokenizer(finishIndices,", \t");
         while(tok.hasMoreTokens()){
-            dfa.finishIndex = Integer.parseInt(tok.nextToken());
-            dfa.states[dfa.finishIndex].markAsFinishedState(true);
+            String fi = tok.nextToken();
+            if(dfa.stateMap.containsKey(fi)){
+                dfa.finishIndex = dfa.stateMap.get(fi);
+                dfa.states[dfa.finishIndex].markAsFinishedState(true);
+            }
+            else{
+                System.err.println("At least one of Accepting states is not present in the state list."
+                    + "\nError in definition file!");
+                System.exit(-1);
+            }
         }
         
         while(fileScanner.hasNextLine()){
             String line = fileScanner.nextLine();
-            StringTokenizer tokenizer = new StringTokenizer(line,",");
-            int start = Integer.parseInt(tokenizer.nextToken());
+            StringTokenizer tokenizer = new StringTokenizer(line,", \t");
+            String start = tokenizer.nextToken();
             char ch = tokenizer.nextToken().trim().charAt(0);
-            int finish = Integer.parseInt(tokenizer.nextToken());
+            String finish = tokenizer.nextToken();
             try {
-                dfa.states[start].addTransitionEntry(ch, dfa.states[finish]);
+                if(!dfa.stateMap.containsKey(start)){
+                    System.err.println("State " + start + "is not present in the state list."
+                    + "\nError in definition file!");
+                    System.exit(-1);
+                }
+                int startIdx = dfa.stateMap.get(start);
+                int finishIdx = dfa.stateMap.get(finish);
+                if(!dfa.stateMap.containsKey(finish)){
+                    System.err.println("State " + finish + "is not present in the state list."
+                    + "\nError in definition file!");
+                    System.exit(-1);
+                }
+                dfa.states[startIdx].addTransitionEntry(ch, dfa.states[finishIdx]);
             } catch (DfaException ex) {
                 Logger.getLogger(Dfa.class.getName()).log(Level.SEVERE, null, ex);
                 System.exit(-1);
