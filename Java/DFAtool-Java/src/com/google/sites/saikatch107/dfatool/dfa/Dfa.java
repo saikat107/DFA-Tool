@@ -26,9 +26,11 @@ public class Dfa {
     private int finishIndex;
     private String filename = null;
     private Map<String , Integer> stateMap = null;
+    private Map<Integer , String> stateMapReverseWay = null;
     private Dfa(String filename){
         this.filename = filename;
         stateMap = new HashMap<String , Integer>();
+        stateMapReverseWay = new HashMap<Integer , String>();
     }
     
     public static Dfa createDfa(String filename){
@@ -46,6 +48,7 @@ public class Dfa {
         while(stateLineTokenizer.hasMoreTokens()){
             String stateName = stateLineTokenizer.nextToken().trim();
             dfa.stateMap.put(stateName, dfa.numberOfState);
+            dfa.stateMapReverseWay.put(dfa.numberOfState , stateName);
             dfa.numberOfState++;
         }
         dfa.states = new State[dfa.numberOfState];
@@ -144,11 +147,12 @@ public class Dfa {
     
     public void debug(){
         for(int i = 0; i < numberOfState; i++){
-            System.out.println(states[i].getId() + " " + 
+            System.out.println(stateMapReverseWay.get(states[i].getId()) + " " + 
                     states[i].isStartState() + " " + states[i].isFinishedState());
             for(int j = 0; j < alphabet.length ; j++){
                 System.out.println("\t" + alphabet[j] + " " + 
-                        states[i].getNextState(alphabet[j]).getId());
+                        stateMapReverseWay.get(
+                                states[i].getNextState(alphabet[j]).getId()));
             }
         }
     }
